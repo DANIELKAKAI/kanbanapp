@@ -3,6 +3,7 @@ import List from './List';
 
 class KanbanBoard extends Component{
     render(){
+        //Calling the List compenents and passing props using a Filter to the API-->
         return(
             <div className="app">
                 <List id='todo' title="To Do" cards={

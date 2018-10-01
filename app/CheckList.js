@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 class CheckList extends Component{
     render(){
+        /*Iteratively creating the cheklists using props*/
         let tasks = this.props.tasks.map((task) => (
             <li className="checklist__task">
                 <input type="checkbox" defaultChecked={task.done} />
