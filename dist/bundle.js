@@ -437,6 +437,14 @@ var Card = function (_Component) {
     return Card;
 }(_react.Component);
 
+Card.propTypes = {
+    id: PropTypes.number,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    color: PropTypes.string,
+    tasks: PropTypes.arrayOf(PropTypes.object)
+};
+
 exports.default = Card;
 
 /***/ }),
@@ -507,6 +515,11 @@ var CheckList = function (_Component) {
     return CheckList;
 }(_react.Component);
 
+CheckList.propTypes = {
+    cardId: PropTypes.number,
+    tasks: PropTypes.arrayOf(PropTypes.object)
+};
+
 exports.default = CheckList;
 
 /***/ }),
@@ -574,6 +587,10 @@ var KanbanBoard = function (_Component) {
 
     return KanbanBoard;
 }(_react.Component);
+
+KanbanBoard.propTypes = {
+    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+};
 
 exports.default = KanbanBoard;
 
@@ -649,6 +666,11 @@ var List = function (_Component) {
 
     return List;
 }(_react.Component);
+
+List.propTypes = {
+    title: _react.PropTypes.string.isRequired,
+    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+};
 
 exports.default = List;
 
