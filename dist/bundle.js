@@ -447,11 +447,11 @@ var Card = function (_Component) {
 }(_react.Component);
 
 Card.propTypes = {
-    id: PropTypes.number,
+    id: _react.PropTypes.number,
     title: titlePropType,
-    description: PropTypes.string,
-    color: PropTypes.string,
-    tasks: PropTypes.arrayOf(PropTypes.object)
+    description: _react.PropTypes.string,
+    color: _react.PropTypes.string,
+    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object)
 };
 
 exports.default = Card;
@@ -525,8 +525,8 @@ var CheckList = function (_Component) {
 }(_react.Component);
 
 CheckList.propTypes = {
-    cardId: PropTypes.number,
-    tasks: PropTypes.arrayOf(PropTypes.object)
+    cardId: _react.PropTypes.number,
+    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object)
 };
 
 exports.default = CheckList;
