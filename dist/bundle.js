@@ -309,12 +309,14 @@ var cardsList = [{
     id: 1,
     title: "Read the Book",
     description: "I should read the whole book",
+    color: '#8D8D31',
     status: "in-progress",
     tasks: []
 }, {
     id: 2,
     title: "Write some code",
     description: "Code along with the samples in the book",
+    color: '#3A7E28',
     status: "todo",
     tasks: [{
         id: 1,
@@ -406,14 +408,25 @@ var Card = function (_Component) {
                         _react2.default.createElement(_Checklist2.default, { cardId: this.props.id, tasks: this.props.tasks })
                     )
                 );
+            }
+
+            var sideColor = {
+                position: 'absolute',
+                zIndex: '-1',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                width: 7,
+                backgroundColor: this.props.color
             };
 
             return _react2.default.createElement(
                 'div',
                 { className: 'card' },
+                _react2.default.createElement('div', { style: sideColor }),
                 _react2.default.createElement(
                     'div',
-                    { className: 'card_title', onClick: this.toggleDetails.bind(this) },
+                    { className: this.state.showDetails ? "card__title card__title--is-open" : "card__title", onClick: this.toggleDetails.bind(this) },
                     this.props.title
                 ),
                 cardDetails
@@ -472,7 +485,7 @@ var CheckList = function (_Component) {
             var tasks = this.props.tasks.map(function (task) {
                 return _react2.default.createElement(
                     "li",
-                    { className: "checklist__task" },
+                    { key: task.id, className: "checklist__task" },
                     _react2.default.createElement("input", { type: "checkbox", defaultChecked: task.done }),
                     task.name,
                     _react2.default.createElement("a", { href: "#", className: "checklist_task--remove" })
@@ -612,9 +625,11 @@ var List = function (_Component) {
         value: function render() {
             //Iteratively assigning props to Card Components
             var cards = this.props.cards.map(function (card) {
-                return _react2.default.createElement(_Card2.default, { id: card.id,
+                return _react2.default.createElement(_Card2.default, { key: card.id,
+                    id: card.id,
                     title: card.title,
                     description: card.description,
+                    color: card.color,
                     tasks: card.tasks });
             });
 
