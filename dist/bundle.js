@@ -386,7 +386,7 @@ var Card = function (_Component) {
                         'div',
                         { className: 'card_details' },
                         this.props.description,
-                        _react2.default.createElement(_Checklist2.default, { cardId: this.props.id, tasks: this.props.tasks })
+                        _react2.default.createElement(_Checklist2.default, { cardId: this.props.id, tasks: this.props.tasks, taskCallbacks: this.props.taskCallbacks })
                     )
                 );
             }
@@ -423,7 +423,8 @@ Card.propTypes = {
     title: titlePropType,
     description: _react.PropTypes.string,
     color: _react.PropTypes.string,
-    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object)
+    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object),
+    taskCallbacks: _react.PropTypes.object
 };
 
 exports.default = Card;
@@ -468,27 +469,42 @@ var CheckList = function (_Component) {
     }
 
     _createClass(CheckList, [{
-        key: "render",
+        key: 'checkInputKeyPress',
+        value: function checkInputKeyPress(evt) {
+            if (evt.key === 'Enter') {
+                this.props.taskCallbacks.add(this.props.cardId, evt.target.value);
+                evt.target.value = '';
+            }
+        }
+    }, {
+        key: 'render',
         value: function render() {
+            var _this2 = this;
+
             /*Iteratively creating the cheklists using props*/
-            var tasks = this.props.tasks.map(function (task) {
+            var tasks = this.props.tasks.map(function (task, taskIndex) {
                 return _react2.default.createElement(
-                    "li",
-                    { key: task.id, className: "checklist__task" },
-                    _react2.default.createElement("input", { type: "checkbox", defaultChecked: task.done }),
+                    'li',
+                    { key: task.id, className: 'checklist__task' },
+                    _react2.default.createElement('input', { type: 'checkbox', defaultChecked: task.done, onChange: _this2.props.taskCallbacks.toggle.bind(null, _this2.props.cardId, task.id, taskIndex) }),
                     task.name,
-                    _react2.default.createElement("a", { href: "#", className: "checklist_task--remove" })
+                    ' ',
+                    _react2.default.createElement('a', { href: '#', className: 'checklist_task--remove', onClick: _this2.props.taskCallbacks.delete.bind(null, _this2.props.cardId, task.id, taskIndex) })
                 );
             });
 
             return _react2.default.createElement(
-                "div",
-                { className: "checklist" },
+                'div',
+                { className: 'checklist' },
                 _react2.default.createElement(
-                    "ul",
+                    'ul',
                     null,
                     tasks
-                )
+                ),
+                _react2.default.createElement('input', { type: 'text',
+                    className: 'checklist__add-task',
+                    placeholder: 'Type then hit Enter to add a task',
+                    onKeyPress: this.checkInputKeyPress.bind(this) })
             );
         }
     }]);
@@ -498,7 +514,8 @@ var CheckList = function (_Component) {
 
 CheckList.propTypes = {
     cardId: _react.PropTypes.number,
-    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object)
+    tasks: _react.PropTypes.arrayOf(_react.PropTypes.object),
+    taskCallbacks: _react.PropTypes.object
 };
 
 exports.default = CheckList;
@@ -553,13 +570,13 @@ var KanbanBoard = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'app' },
-                _react2.default.createElement(_List2.default, { id: 'todo', title: 'To Do', cards: this.props.cards.filter(function (card) {
+                _react2.default.createElement(_List2.default, { id: 'todo', title: 'To Do', taskCallbacks: this.props.taskCallbacks, cards: this.props.cards.filter(function (card) {
                         return card.status == "todo";
                     }) }),
-                _react2.default.createElement(_List2.default, { id: 'in-progress', title: 'In Progress', cards: this.props.cards.filter(function (card) {
+                _react2.default.createElement(_List2.default, { id: 'in-progress', taskCallbacks: this.props.taskCallbacks, title: 'In Progress', cards: this.props.cards.filter(function (card) {
                         return card.status == "in-progress";
                     }) }),
-                _react2.default.createElement(_List2.default, { id: 'done', title: 'Done', cards: this.props.cards.filter(function (card) {
+                _react2.default.createElement(_List2.default, { id: 'done', title: 'Done', taskCallbacks: this.props.taskCallbacks, cards: this.props.cards.filter(function (card) {
                         return card.status == "done";
                     }) })
             );
@@ -570,7 +587,8 @@ var KanbanBoard = function (_Component) {
 }(_react.Component);
 
 KanbanBoard.propTypes = {
-    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+    cards: _react.PropTypes.arrayOf(_react.PropTypes.object),
+    taskCallbacks: _react.PropTypes.object
 };
 
 exports.default = KanbanBoard;
@@ -604,6 +622,8 @@ var _KanbanBoard2 = _interopRequireDefault(_KanbanBoard);
 __webpack_require__(/*! whatwg-fetch */ "./node_modules/whatwg-fetch/fetch.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -645,9 +665,122 @@ var KanbanBoardContainer = function (_Component) {
             });
         }
     }, {
+        key: 'addTask',
+        value: function addTask(cardId, taskName) {
+            var _this3 = this;
+
+            //find the index of the card
+            var cardIndex = this.state.cards.findIndex(function (card) {
+                return card.id == cardId;
+            });
+
+            //Create a new task with the given name and Temporary ID
+            var newTask = { id: Date.now(), name: taskName, done: false };
+
+            //Create a new Object and push the new task to the array of tasks
+            var nextState = update(this.state.cards, _defineProperty({}, cardIndex, {
+                tasks: { $push: [newTask] }
+            }));
+
+            //Set the Component state to the mutated object
+            this.setState({ cards: nextState });
+
+            //Call the API to add the task on the Server
+            fetch('${API_URL}/cards/${cardId}/tasks', {
+                method: 'post',
+                headers: API_HEADERS,
+                body: JSON.stringify(newTask)
+            }).then(function (response) {
+                return response.json();
+            }).then(function (responseData) {
+                //When the server returns the definitive ID
+                //used for the new Task on the Server, update it on React
+                newTask.id = responseData.id;
+                _this3.setState({ cards: nextState });
+            }).catch(function (error) {
+                _this3.setState(prevState);
+            });
+        }
+    }, {
+        key: 'deleteTask',
+        value: function deleteTask(cardId, taskId, taskIndex) {
+            //find the index of the card
+            var cardIndex = this.state.cards.findIndex(function (card) {
+                return card.id == cardId;
+            });
+
+            //create a nw object without the task
+            var nextState = update(this.state.cards, _defineProperty({}, cardIndex, {
+                tasks: { $splice: [[taskIndex, 1]] }
+            }));
+
+            //Set the Component State to the mutated Object
+            this.setState({ cards: nextState });
+
+            //Call the API to remove the task on the server
+            fetch('${API_URL}/cards/${cardId}/tasks/${taskId}', {
+                method: 'put',
+                headers: API_HEADERS,
+                body: JSON.stringify({ done: newDoneValue })
+            });
+        }
+    }, {
+        key: 'toggleTask',
+        value: function toggleTask(cardId, taskId, taskIndex) {
+            var _this4 = this;
+
+            //Keep a reference to the original state prior to the mutations
+            //in case we need to revert the optimistic changes in the UI
+            var prevState = this.state;
+
+            //find the index of the card
+            var cardIndex = this.state.cards.findIndex(function (card) {
+                return card.id == cardId;
+            });
+
+            //Save a reference to the task's 'done' value
+            var newDoneValue = void 0;
+
+            //Using the $apply command, we will change the done value to its opposite
+            var nextState = update(this.state.cards, {
+                tasks: _defineProperty({}, taskIndex, {
+                    done: { $apply: function $apply(done) {
+                            newDoneValue = !done;
+                            return newDoneValue;
+                        }
+                    }
+                })
+            });
+
+            // set the component state to the mutated object
+            this.setState({ cards: nextState });
+
+            // Call the API to toggle the task on the server
+            fetch('${API_URL}/cards/${cardId}/tasks/${taskId}', {
+                method: 'put',
+                headers: API_HEADERS,
+                body: JSON.stringify({ done: newDoneValue })
+            }).then(function (response) {
+                if (!response.ok) {
+                    // Throw an error if server response wasn't 'ok'
+                    // so we can revert back the optimistic changes
+                    // made to the UI.
+                    throw new Error("Server Response wasn't OK");
+                }
+            }).catch(function (error) {
+                console.error("Fetch error:", error);
+                _this4.setState(prevState);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(_KanbanBoard2.default, { cards: this.state.cards });
+            return _react2.default.createElement(_KanbanBoard2.default, { cards: this.state.cards,
+                taskCallbacks: {
+                    toggle: this.toggleTask.bind(this),
+                    delete: this.deleteTask.bind(this),
+                    add: this.addTask.bind(this)
+                } });
         }
     }]);
 
@@ -702,9 +835,12 @@ var List = function (_Component) {
     _createClass(List, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             //Iteratively assigning props to Card Components
             var cards = this.props.cards.map(function (card) {
                 return _react2.default.createElement(_Card2.default, { key: card.id,
+                    taskCallbacks: _this2.props.taskCallbacks,
                     id: card.id,
                     title: card.title,
                     description: card.description,
@@ -731,7 +867,8 @@ var List = function (_Component) {
 
 List.propTypes = {
     title: _react.PropTypes.string.isRequired,
-    cards: _react.PropTypes.arrayOf(_react.PropTypes.object)
+    cards: _react.PropTypes.arrayOf(_react.PropTypes.object),
+    taskCallbacks: _react.PropTypes.object
 };
 
 exports.default = List;
