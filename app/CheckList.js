@@ -8,7 +8,7 @@ class CheckList extends Component{
         }
     }
     render(){
-        /*Iteratively creating the cheklists using props*/
+        /*Iteratively creating the checklists using props*/
         let tasks = this.props.tasks.map((task, taskIndex) => (
             <li key={task.id} className="checklist__task">
                 <input type="checkbox" defaultChecked={task.done} onChange={

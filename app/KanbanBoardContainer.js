@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import KanbanBoard from './KanbanBoard';
+import update from 'react-addons-update';
 import 'whatwg-fetch';
 
 const API_URL = 'http://kanbanapi.pro-react.com';
@@ -45,7 +46,7 @@ class KanbanBoardContainer extends Component{
         this.setState({cards:nextState});
 
         //Call the API to add the task on the Server
-        fetch('${API_URL}/cards/${cardId}/tasks',{
+        fetch(API_URL+'/cards',{
             method: 'post',
             headers: API_HEADERS,
             body: JSON.stringify(newTask)
