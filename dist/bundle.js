@@ -438,9 +438,22 @@ var cardDragSpec = {
     }
 };
 
+var cardDropSpec = {
+    hover: function hover(props, monitor) {
+        var draggedId = monitor.getItem().id;
+        props.cardCallbacks.updatePosition(draggedId, props.id);
+    }
+};
+
 var collectDrag = function collectDrag(connect, monitor) {
     return {
         connectDragSource: connect.dragSource()
+    };
+};
+
+var collectDrop = function collectDrop(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget()
     };
 };
 
@@ -466,7 +479,10 @@ var Card = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var connectDragSource = this.props.connectDragSource;
+            var _props = this.props,
+                connectDragSource = _props.connectDragSource,
+                connectDropTarget = _props.connectDropTarget;
+
 
             var cardDetails = void 0;
             if (this.state.showDetails) {
@@ -528,10 +544,14 @@ Card.propTypes = {
     tasks: _react.PropTypes.arrayOf(_react.PropTypes.object),
     taskCallbacks: _react.PropTypes.object,
     cardCallbacks: _react.PropTypes.object,
-    connectDragSource: _react.PropTypes.func.isRequired
+    connectDragSource: _react.PropTypes.func.isRequired,
+    connectDropTarget: _react.PropTypes.func.isRequired
 };
 
-exports.default = (0, _reactDnd.DragSource)(_constants2.default.CARD, cardDragSpec, collectDrag)(Card);
+var dragHighOrderCard = (0, _reactDnd.DragSource)(_constants2.default.CARD, cardDragSpec, collectDrag(Card));
+var dragDropHighOrderCard = (0, _reactDnd.DropTarget)(_constants2.default.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
+
+exports.default = dragHighOrderCard;
 
 /***/ }),
 

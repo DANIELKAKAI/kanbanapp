@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import marked from 'marked';
 import CheckList from './Checklist';
-import { DragSource } from 'react-dnd';
+import { DragSource, DropTarget } from 'react-dnd';
 import constants from './constants';
 
 let titlePropType = (props, propName, componentName) =>{
@@ -19,14 +19,27 @@ const cardDragSpec ={
         return {
             id: props.id
         };
+    },
+};
+
+const cardDropSpec ={
+    hover(props, monitor){
+        const draggedId = monitor.getItem().id;
+        props.cardCallbacks.updatePosition(draggedId, props.id);
     }
-}
+};
 
 let collectDrag = (connect, monitor) =>{
     return {
         connectDragSource: connect.dragSource()
     };
-}
+};
+
+let collectDrop = (connect, monitor) => {
+    return{
+        connectDropTarget: connect.dropTarget(),
+    };
+};
 
 class Card extends Component{
     constructor(){
@@ -41,7 +54,8 @@ class Card extends Component{
     }
 
     render(){
-        const {connectDragSource} = this.props;
+        const { connectDragSource, connectDropTarget } = this.props;
+
         let cardDetails;
         if(this.state.showDetails){
             cardDetails =(
@@ -87,7 +101,12 @@ Card.propTypes ={
     tasks: PropTypes.arrayOf(PropTypes.object),
     taskCallbacks: PropTypes.object,
     cardCallbacks: PropTypes.object,
-    connectDragSource: PropTypes.func.isRequired
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired
 };
 
-export default DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
+const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag(Card));
+const dragDropHighOrderCard = DropTarget(constants.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
+
+
+export default dragHighOrderCard;

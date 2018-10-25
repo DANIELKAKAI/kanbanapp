@@ -43,13 +43,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="1" />
-          <entry key="js" value="6017" />
+          <entry key="js" value="6493" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="1" />
-          <entry key="JavaScript" value="6017" />
+          <entry key="JavaScript" value="6493" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -61,22 +61,24 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/KanbanBoardContainer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
+            <state relative-caret-position="326">
               <caret line="190" column="36" lean-forward="true" selection-start-line="190" selection-start-column="36" selection-end-line="190" selection-end-column="36" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
                 <element signature="n#!!block;n#addTask#0;n#KanbanBoardContainer#0" />
                 <element signature="n#!!block;n#deleteTask#0;n#KanbanBoardContainer#0" />
                 <element signature="n#!!block;n#toggleTask#0;n#KanbanBoardContainer#0" />
+                <element signature="n#!!block;n#updateCardStatus#0;n#KanbanBoardContainer#0" />
+                <element signature="n#!!block;n#updateCardPosition#0;n#KanbanBoardContainer#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/KanbanBoard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
+            <state relative-caret-position="259">
               <caret line="33" column="58" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="58" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
@@ -97,11 +99,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Card.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="365">
-              <caret line="92" column="75" lean-forward="true" selection-start-line="92" selection-start-column="75" selection-end-line="92" selection-end-column="75" />
+              <caret line="111" column="33" selection-start-line="111" selection-start-column="33" selection-end-line="111" selection-end-column="33" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -144,9 +146,9 @@
         <option value="$PROJECT_DIR$/public/styles.css" />
         <option value="$PROJECT_DIR$/app/KanbanBoardContainer.js" />
         <option value="$PROJECT_DIR$/app/Constants.js" />
-        <option value="$PROJECT_DIR$/app/Card.js" />
         <option value="$PROJECT_DIR$/app/List.js" />
         <option value="$PROJECT_DIR$/app/KanbanBoard.js" />
+        <option value="$PROJECT_DIR$/app/Card.js" />
       </list>
     </option>
   </component>
@@ -235,12 +237,12 @@
       <workItem from="1539946384191" duration="512000" />
       <workItem from="1540131475665" duration="611000" />
       <workItem from="1540196810826" duration="3670000" />
-      <workItem from="1540459157313" duration="6535000" />
+      <workItem from="1540459157313" duration="7406000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34876000" />
+    <option name="totallyTimeSpent" value="35747000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="652" height="624" extended-state="0" />
@@ -300,33 +302,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/KanbanBoardContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="190" column="36" lean-forward="true" selection-start-line="190" selection-start-column="36" selection-end-line="190" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-            <element signature="n#!!block;n#addTask#0;n#KanbanBoardContainer#0" />
-            <element signature="n#!!block;n#deleteTask#0;n#KanbanBoardContainer#0" />
-            <element signature="n#!!block;n#toggleTask#0;n#KanbanBoardContainer#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Constants.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="15" lean-forward="true" selection-start-column="15" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Card.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="92" column="75" lean-forward="true" selection-start-line="92" selection-start-column="75" selection-end-line="92" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -342,8 +321,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/KanbanBoard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
+        <state relative-caret-position="259">
           <caret line="33" column="58" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/KanbanBoardContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="190" column="36" lean-forward="true" selection-start-line="190" selection-start-column="36" selection-end-line="190" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="n#!!block;n#addTask#0;n#KanbanBoardContainer#0" />
+            <element signature="n#!!block;n#deleteTask#0;n#KanbanBoardContainer#0" />
+            <element signature="n#!!block;n#toggleTask#0;n#KanbanBoardContainer#0" />
+            <element signature="n#!!block;n#updateCardStatus#0;n#KanbanBoardContainer#0" />
+            <element signature="n#!!block;n#updateCardPosition#0;n#KanbanBoardContainer#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Card.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="111" column="33" selection-start-line="111" selection-start-column="33" selection-end-line="111" selection-end-column="33" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
