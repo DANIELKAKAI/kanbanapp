@@ -409,9 +409,9 @@ var _Checklist2 = _interopRequireDefault(_Checklist);
 
 var _reactDnd = __webpack_require__(/*! react-dnd */ "./node_modules/react-dnd/lib/index.js");
 
-var _constants = __webpack_require__(/*! ./constants */ "./app/constants.js");
+var _Constants = __webpack_require__(/*! ./Constants */ "./app/Constants.js");
 
-var _constants2 = _interopRequireDefault(_constants);
+var _Constants2 = _interopRequireDefault(_Constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -548,10 +548,10 @@ Card.propTypes = {
     connectDropTarget: _react.PropTypes.func.isRequired
 };
 
-var dragHighOrderCard = (0, _reactDnd.DragSource)(_constants2.default.CARD, cardDragSpec, collectDrag(Card));
-var dragDropHighOrderCard = (0, _reactDnd.DropTarget)(_constants2.default.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
+var dragHighOrderCard = (0, _reactDnd.DragSource)(_Constants2.default.CARD, cardDragSpec, collectDrag)(Card);
+var dragDropHighOrderCard = (0, _reactDnd.DropTarget)(_Constants2.default.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
 
-exports.default = dragHighOrderCard;
+exports.default = dragDropHighOrderCard;
 
 /***/ }),
 
@@ -643,6 +643,25 @@ CheckList.propTypes = {
 };
 
 exports.default = CheckList;
+
+/***/ }),
+
+/***/ "./app/Constants.js":
+/*!**************************!*\
+  !*** ./app/Constants.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    CARD: 'card'
+};
 
 /***/ }),
 
@@ -1009,9 +1028,9 @@ var _Card = __webpack_require__(/*! ./Card */ "./app/Card.js");
 
 var _Card2 = _interopRequireDefault(_Card);
 
-var _constants = __webpack_require__(/*! ./constants */ "./app/constants.js");
+var _Constants = __webpack_require__(/*! ./Constants */ "./app/Constants.js");
 
-var _constants2 = _interopRequireDefault(_constants);
+var _Constants2 = _interopRequireDefault(_Constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1087,26 +1106,7 @@ List.propTypes = {
     connectDropTarget: _propTypes2.default.func.isRequired
 };
 
-exports.default = (0, _reactDnd.DropTarget)(constants.CARD, listTargetSpec, collect)(List);
-
-/***/ }),
-
-/***/ "./app/constants.js":
-/*!**************************!*\
-  !*** ./app/constants.js ***!
-  \**************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    CARD: 'card'
-};
+exports.default = (0, _reactDnd.DropTarget)(_Constants2.default.CARD, listTargetSpec, collect)(List);
 
 /***/ }),
 

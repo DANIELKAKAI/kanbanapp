@@ -3,7 +3,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import marked from 'marked';
 import CheckList from './Checklist';
 import { DragSource, DropTarget } from 'react-dnd';
-import constants from './constants';
+import constants from './Constants';
 
 let titlePropType = (props, propName, componentName) =>{
     if(props[propName]){
@@ -105,8 +105,8 @@ Card.propTypes ={
     connectDropTarget: PropTypes.func.isRequired
 };
 
-const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag(Card));
+const dragHighOrderCard = DragSource(constants.CARD, cardDragSpec, collectDrag)(Card);
 const dragDropHighOrderCard = DropTarget(constants.CARD, cardDropSpec, collectDrop)(dragHighOrderCard);
 
 
-export default dragHighOrderCard;
+export default dragDropHighOrderCard;

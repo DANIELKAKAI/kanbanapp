@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {DropTarget} from 'react-dnd';
 import PropTypes from 'prop-types';
 import Card from './Card';
-import Constants from './constants';
+import Constants from './Constants';
 
 const listTargetSpec ={
     hover(props, monitor){
@@ -50,4 +50,4 @@ List.propTypes = {
     connectDropTarget: PropTypes.func.isRequired
 };
 
-export default DropTarget(constants.CARD, listTargetSpec, collect)(List);
+export default DropTarget(Constants.CARD, listTargetSpec, collect)(List);
