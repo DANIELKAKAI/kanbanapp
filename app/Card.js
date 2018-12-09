@@ -14,8 +14,8 @@ let titlePropType = (props, propName, componentName) =>{
     }
 };
 
-const cardDragSpec ={
-    beginDrag(props){
+const cardDragSpec = {
+    beginDrag(props) {
         return {
             id: props.id
         };
@@ -79,7 +79,7 @@ class Card extends Component{
             backgroundColor: this.props.color
         };
         
-        return connectDragSource(
+        return connectDropTarget(connectDragSource(
             <div className="card">
                 <div style={sideColor}/>
                     <div className={this.state.showDetails? "card__title card__title--is-open" : "card__title"} onClick={this.toggleDetails.bind(this)}>{this.props.title}</div>
@@ -90,7 +90,7 @@ class Card extends Component{
                         {cardDetails}
                     </ReactCSSTransitionGroup>
             </div>
-        );
+        ));
     }
 }
 Card.propTypes ={
