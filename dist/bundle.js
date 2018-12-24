@@ -252,7 +252,7 @@ var Card = function (_Component) {
                 backgroundColor: this.props.color
             };
 
-            return connectDragSource(_react2.default.createElement(
+            return connectDropTarget(connectDragSource(_react2.default.createElement(
                 'div',
                 { className: 'card' },
                 _react2.default.createElement('div', { style: sideColor }),
@@ -268,7 +268,7 @@ var Card = function (_Component) {
                         transitionLeaveTimeout: 250 },
                     cardDetails
                 )
-            ));
+            )));
         }
     }]);
 
