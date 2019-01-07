@@ -172,8 +172,12 @@ var titlePropType = function titlePropType(props, propName, componentName) {
 var cardDragSpec = {
     beginDrag: function beginDrag(props) {
         return {
-            id: props.id
+            id: props.id,
+            status: props.status
         };
+    },
+    endDrag: function endDrag(props) {
+        props.cardCallbacks.persistCardDrag(props.id, props.status);
     }
 };
 
@@ -729,6 +733,38 @@ var KanbanBoardContainer = function (_Component) {
             }
         }
     }, {
+        key: 'persistCardDrag',
+        value: function persistCardDrag(cardId, status) {
+            var _this5 = this;
+
+            //Find the index of the card
+            var cardIndex = this.state.cards.findIndex(function (card) {
+                return card.id == cardId;
+            });
+            //Get the current card
+            var card = this.state.cards[cardIndex];
+
+            fetch(API_URL + '/cards/' + cardId, {
+                method: 'put',
+                headers: API_HEADERS,
+                body: JSON.stringify({ status: card.status, row_order_position: cardIndex })
+            }).then(function (response) {
+                if (!response.ok) {
+                    //Throw an error if server response wasn't 'ok'
+                    //so you can revert back the optimistic changes
+                    //made to the  UI.
+                    throw new Error("Server response wasn't OK");
+                }
+            }).catch(function (error) {
+                console.error("Fetch error:", error);
+                _this5.setState((0, _reactAddonsUpdate2.default)(_this5.state, {
+                    cards: _defineProperty({}, cardIndex, {
+                        status: { $set: status }
+                    })
+                }));
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(_KanbanBoard2.default, { cards: this.state.cards,
@@ -739,7 +775,8 @@ var KanbanBoardContainer = function (_Component) {
                 },
                 cardCallbacks: {
                     updateStatus: this.updateCardStatus,
-                    updatePosition: this.updateCardPosition
+                    updatePosition: this.updateCardPosition,
+                    persistCardDrag: this.persistCardDrag.bind(this)
                 }
             });
         }
