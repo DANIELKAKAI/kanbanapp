@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import KanbanBoard from './KanbanBoard';
 import update from 'react-addons-update';
+import {throttle} from './utils';
+import KanbanBoard from './KanbanBoard';
+
+//Polyfills
 import 'whatwg-fetch';
+import 'babel-polyfill';
 
 const API_URL = 'http://kanbanapi.pro-react.com';
 const API_HEADERS = {
@@ -15,6 +19,10 @@ class KanbanBoardContainer extends Component{
         this.state ={
             cards:[],
         };
+        //Only call updateCardStatus when arguments change
+        this.updateCardStatus = throttle(this.updateCardStatus.bind(this));
+        //Call updateCardPosition at max every 500ms (or when arguments change)
+        this.updateCardPosition = throttle(this.updateCardPosition.bind(this),500);
     }
 
     componentDidMount(){
@@ -51,17 +59,25 @@ class KanbanBoardContainer extends Component{
             headers: API_HEADERS,
             body: JSON.stringify(newTask)
         })
-            .then((response) => response.json())
-            .then((responseData) => {
+
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error("Server response was not okay")
+                }
+            })
+            .then((responseData) =>{
                 //When the server returns the definitive ID
-                //used for the new Task on the Server, update it on React
-                newTask.id = responseData.id;
+                //used for the new, Task on the server, update it on React
+                newTask.id = responseData.id
                 this.setState({cards:nextState});
             })
             .catch((error) =>{
                 this.setState(prevState);
             });
     }
+
 
     deleteTask(cardId, taskId, taskIndex){
         //find the index of the card
@@ -157,7 +173,7 @@ class KanbanBoardContainer extends Component{
             //Find the index of the card
             let cardIndex = this.state.cards.findIndex((card) => card.id == cardId);
             //Get the current card
-            let card = this.state.card[cardIndex];
+            let card = this.state.cards[cardIndex];
             //Find the index of the card the user is hovering over
             let afterIndex = this.state.cards.findIndex((card) => card.id == afterId);
             //Use splice to remove the card and reinsert it a new index
@@ -180,8 +196,8 @@ class KanbanBoardContainer extends Component{
                                 add: this.addTask.bind(this)
                             }}
                             cardCallbacks = {{
-                                updateStatus: this.updateCardStatus.bind(this),
-                                updatePosition: this.updateCardPosition.bind(this)
+                                updateStatus: this.updateCardStatus,
+                                updatePosition: this.updateCardPosition
                             }}
                             />
         )
